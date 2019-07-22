@@ -1,7 +1,7 @@
 package com.xw.miaosha.demo.response;
 import lombok.Data;
 
-@Data
+@Data//lombok 自动生成get/set方法、toString()、equals()、无参构造方法
 public class CommonReturnType {
     private String status;
     private Object data;
