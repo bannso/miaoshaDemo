@@ -1,6 +1,7 @@
 package com.xw.miaosha.demo.dao;
 
 import com.xw.miaosha.demo.model.Item;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface ItemMapper {
     int updateByPrimaryKey(Item record);
 
     List<Item> listItem ();
+
+    int increaseSales(@Param ("id")Integer id,@Param ("amount")Integer amount);
 }

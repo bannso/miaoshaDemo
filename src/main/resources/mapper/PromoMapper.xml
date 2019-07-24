@@ -105,4 +105,9 @@
       promo_item_price = #{promoItemPrice,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByItemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from promo where item_id = #{itemId,jdbcType=INTEGER}
+  </select>
 </mapper>

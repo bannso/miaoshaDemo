@@ -2,12 +2,15 @@ package com.xw.miaosha.demo.service.impl;
 
 import com.xw.miaosha.demo.dao.ItemMapper;
 import com.xw.miaosha.demo.dao.ItemStockMapper;
+import com.xw.miaosha.demo.dao.PromoMapper;
 import com.xw.miaosha.demo.error.BusinessException;
 import com.xw.miaosha.demo.error.EmBusinessError;
 import com.xw.miaosha.demo.model.Item;
 import com.xw.miaosha.demo.model.ItemStock;
 import com.xw.miaosha.demo.service.ItemService;
+import com.xw.miaosha.demo.service.PromoService;
 import com.xw.miaosha.demo.service.model.ItemModel;
+import com.xw.miaosha.demo.service.model.PromoModel;
 import com.xw.miaosha.demo.validator.ValidatorImpl;
 import com.xw.miaosha.demo.validator.ValidatorResult;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +30,8 @@ public class ItemServiceImpl implements ItemService {
     ItemMapper itemMapper;
     @Autowired(required = false)
     ItemStockMapper itemStockMapper;
+    @Autowired
+    PromoService promoService;
 
 
     private Item convertItemFromItemModel(ItemModel itemModel) {
@@ -89,17 +94,25 @@ public class ItemServiceImpl implements ItemService {
         if (item==null) return null;
         ItemStock stock = itemStockMapper.selectByItemId (id);
         ItemModel itemModel = generateModelFromDataObject(item,stock);
+        /*注入商品活动信息*/
+        PromoModel promoModel = promoService.getPromoById (id);
+        if(promoModel==null) return itemModel;
+        if(promoModel.getStatus ()!=3){
+            itemModel.setPromoModel (promoModel);
+        }
         return itemModel;
     }
 
 
     @Override
     public boolean decreaseStock(Integer itemId, Integer amount) {
-        return false;
+        int affectedRow = itemStockMapper.decreaseStock (itemId,amount);
+        if(affectedRow<=0) return false;
+        else return true;
     }
 
     @Override
     public void increaseSales(Integer itemId, Integer amount) {
-
+        itemMapper.increaseSales (itemId,amount);
     }
 }

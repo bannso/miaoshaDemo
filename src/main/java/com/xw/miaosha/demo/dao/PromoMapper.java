@@ -1,6 +1,7 @@
 package com.xw.miaosha.demo.dao;
 
 import com.xw.miaosha.demo.model.Promo;
+import com.xw.miaosha.demo.service.model.PromoModel;
 
 public interface PromoMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface PromoMapper {
     int updateByPrimaryKeySelective(Promo record);
 
     int updateByPrimaryKey(Promo record);
+
+    Promo selectByItemId(Integer id);
 }

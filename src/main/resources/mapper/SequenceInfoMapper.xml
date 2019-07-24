@@ -15,7 +15,7 @@
     select 
     <include refid="Base_Column_List" />
     from sequence_info
-    where name = #{name,jdbcType=VARCHAR}
+    where name = #{name,jdbcType=VARCHAR} for update
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sequence_info
